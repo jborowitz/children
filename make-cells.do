@@ -21,13 +21,13 @@ use cps_00003.dta, clear
 local keeplist "dadhead elig income parentage hsdip cdip married nonwhite famsize wifeinlf cps CH97PRWT CH97HHWT "
 /*local keeplist "dadhead elig income parentage hsdip cdip married nonwhite famsize wifeinlf cps psid educ mhsdip mcdip fhsdip fcdip"*/
 ***********************************************************************
-gen parent = (relate <= 201 | relate == 1114 | relate == 1113)
+gen parent = prfamrel == 1 | prfamrel == 2
 gen sample = 1
 * sample is the variable that I'll use instead of dropping.  Everything should
 * ultimately be based on if sample ==1
 /*note: nchild pertains to how many children the individual has, so we need*/
 /*nchild for the householder, and to set that for every family member*/
-replace sample = 0 if gq == 1
+/*replace sample = 0 if gq == 1*/
 gen nonwhite = race != 100
 gen black = race == 200 if race <= 200
 gen married = marst < 3
