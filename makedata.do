@@ -501,6 +501,21 @@ gen Ffracrec97 = Fpubrec97/Frec97
 gen Ffraceduc97 = Fpubeduc97/Feduc97
 gen Ffractravel97 = Fpubtravel97/Ftravel97
 gen FfracTOT97 = FpubTOT97/FTOT97
+gen Mlobasic97 = log(Mfracbasic97/(1-Mfracbasic97))
+gen Mlorec97 = log(Mfracrec97/(1-Mfracrec97))
+gen Mloeduc97 = log(Mfraceduc97/(1-Mfraceduc97))
+gen Mlotravel97 = log(Mfractravel97/(1-Mfractravel97))
+gen MloTOT97 = log(MfracTOT97/(1-MfracTOT97))
+gen Blobasic97 = log(Bfracbasic97/(1-Bfracbasic97))
+gen Blorec97 = log(Bfracrec97/(1-Bfracrec97))
+gen Bloeduc97 = log(Bfraceduc97/(1-Bfraceduc97))
+gen Blotravel97 = log(Bfractravel97/(1-Bfractravel97))
+gen BloTOT97 = log(BfracTOT97/(1-BfracTOT97))
+gen Flobasic97 = log(Ffracbasic97/(1-Ffracbasic97))
+gen Florec97 = log(Ffracrec97/(1-Ffracrec97))
+gen Floeduc97 = log(Ffraceduc97/(1-Ffraceduc97))
+gen Flotravel97 = log(Ffractravel97/(1-Ffractravel97))
+gen FloTOT97 = log(FfracTOT97/(1-FfracTOT97))
 gen oldmale = ER32000 == 1 & chagem == maxage
 gen youngmale = ER32000 == 1 & chagem == minage
 sort PCGID_97 PCGPN_97 chagem
@@ -727,6 +742,11 @@ replace ORT = 2 if RT > .3 & RT < .4
 replace ORT = 3 if RT > .5 & RT < 1
 replace ORT = 4 if RT > 1 & RT < 2
 replace ORT = 5 if RT > 8
+gen ageatbirth = parentage - chage
+gen teenmom = ageatbirth <=20
+gen blackXurban = black * urban
+gen blackXmarriedrateall = black * marriedrateall
+gen blackXmarriedraterace = black * marriedraterace
 **********************************************************************
 
 **********************************************************************
@@ -849,6 +869,13 @@ label variable diffbwkg "Abs(B-Weight Diff) (kg)"
 label variable chagem "Child Age (Months)"
 label variable chagem2 "Child Age$^2$/1000"
 label variable selfBTOTavg "Average Time with Child"
+label variable black "Black"
+label variable blackXmarriedraterace "Black * % Married"
+label variable marriedraterace "% Married"
+label variable Ffracbasic97 "Public/All Time"
+label variable Ffracrec97 "Public/All Time"
+label variable Ffraceduc97 "Public/All Time"
+label variable urban "Urban Area"
 
 **********************************************************************
   * Dropping

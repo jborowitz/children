@@ -1,4 +1,4 @@
-do :
+do : twoSibsPared.dta pcgPared.dta
 	stata-mp -b do jan11.do
 test-merged.dta : prepare_psid.sh splitandmerge.do psid.zip
 	./prepare_psid.sh
@@ -20,3 +20,8 @@ clean :
 	rm -f *ols.tex
 	rm -f results/*ols.tex
 	rm -f results/*ols.txt
+git-clean :
+	git rm *ols.txt
+	git rm *ols.tex
+	git rm results/*ols.tex
+	git rm results/*ols.txt

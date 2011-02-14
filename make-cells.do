@@ -164,6 +164,10 @@ gen psid = 0
 gen CH97PRWT = 1
 gen CH97HHWT = 1
 save cps97pared, replace
+/*To make something at a new cell (eg state and teen mom) replace "statefip black"*/
+/*with "statefip teenmom" and rename the variables accordingly.  Make sure to*/
+/*drop duplicates at the cell level (or smallest cell level if you do more than*/
+/*one).  */
 gen temp = marst == 1
 bysort statefip: egen marriedrateall = mean(temp) if kid1elig
 bysort statefip: egen mrase = semean(temp) if kid1elig
