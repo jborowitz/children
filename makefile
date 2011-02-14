@@ -1,3 +1,5 @@
+do :
+	stata-mp -b do jan11.do
 test-merged.dta : prepare_psid.sh splitandmerge.do psid.zip
 	./prepare_psid.sh
 pcgPared.dta : makedata.do test-merged.dta tdag97.dta tdag02.dta tdag07.dta married.dta
@@ -13,6 +15,8 @@ tdag07.dta : td07.dta make-2007-td.do
 	stata-mp -b do make-2007-td.do
 married.dta : make-cells.do cps-ipums.dta
 	stata-mp -b do make-cells.do
-#cps97/cps96-sample.dta : cps97/cps96.dta sample.do
-	#stata-mp -b do sample.do	
-
+clean : 
+	rm -f *ols.txt
+	rm -f *ols.tex
+	rm -f results/*ols.tex
+	rm -f results/*ols.txt

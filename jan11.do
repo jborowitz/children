@@ -32,14 +32,14 @@ local tableiqr "stats(iqr sd1 r2 N)"
 local iqrlabel "IQR of R.T. Effect"
 local sd1label "1 sd of R.T. Effect"
 local percentiles "25 75"
-local unitlist "Ffracrec97 Mfracrec97 Bfracrec97"
+local unitlist "Mpubrec97 "
 /*local unitlist "MTOT97"*/
-local x1 "black marriedraterace blackXmarriedraterace "
-local x2 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
-local x3 "black marriedraterace blackXmarriedraterace hsdip cdip fhsdip fcdip income "
-local x4 "black marriedraterace blackXmarriedraterace hsdip cdip fhsdip fcdip income urban"
-local x5 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip   parentage income "
-local x6 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
+local x1 "black marriedraterace blackXmarriedraterace Mrec97 "
+local x2 "black marriedraterace blackXmarriedraterace Mrec97 chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
+local x3 "black marriedraterace blackXmarriedraterace Mrec97 hsdip cdip fhsdip fcdip income "
+local x4 "black marriedraterace blackXmarriedraterace Mrec97 hsdip cdip fhsdip fcdip income urban"
+local x5 "black marriedraterace blackXmarriedraterace Mrec97 chagem chagem2 hsdip cdip fhsdip fcdip   parentage income "
+local x6 "black marriedraterace blackXmarriedraterace Mrec97 chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
 local X1 "`x1'"
 local X2 "`x2'"
 local X3 "`x3' `interactions'"
@@ -53,7 +53,7 @@ local X6 "`x6' `interactions'"
 /*local X5 "cdip hsdip fcdip fhsdip bothschool noschool males females nonwhite parentage  i.famsize i.yearsdiff i.ageyoungest"*/
 local RTvar1 "black asian"
 local RTvar1 "black hispanic"
-local weight "[pweight=CH97PRWT] "
+local weight "[pweight=CH97HHWT] "
 local RTvarlist "RTvar1 "
 local keeplist "`x6'"
 local xlist "X1 X2 X3 X4 X5 X6"
@@ -98,6 +98,7 @@ foreach unit of local unitlist{
             !sed -i 's/iqr/`iqrlabel'/' `name'ols.tex
             !sed -i 's/iqr \{15\}/`iqrlabel'/' `name'ols.txt
             !cp `name'ols.tex results
+            !cp `name'ols.txt results
 }
 
 **********************************************************************
