@@ -24,12 +24,12 @@ local tableiqr "stats(iqr sd1 r2 N)"
 local iqrlabel "IQR of R.T. Effect"
 local sd1label "1 sd of R.T. Effect"
 local percentiles "25 75"
-local x1 "wifeinlf "
-local x2 "wifeinlf chagem chagem2  hsdip cdip fhsdip fcdip male parentage income "
-local x3 "wifeinlf chagem chagem2 income parentage "
-local x4 "wifeinlf male parentage income  "
-local x5 "wifeinlf hsdip cdip  fhsdip fcdip  "
-local x6 "wifeinlf chagem chagem2 hsdip cdip fhsdip fcdip   male parentage income "
+local x1 "wifeinlf black"
+local x2 "wifeinlf black chagem chagem2  hsdip cdip fhsdip fcdip male parentage income "
+local x3 "wifeinlf black chagem chagem2 income parentage "
+local x4 "wifeinlf black male parentage income  "
+local x5 "wifeinlf black hsdip cdip  fhsdip fcdip  "
+local x6 "wifeinlf black chagem chagem2 hsdip cdip fhsdip fcdip   male parentage income "
 local X1 "`x1'"
 local X2 "`x2'"
 local X3 "`x3' `interactions'"
@@ -85,7 +85,8 @@ foreach unit of local unitlist{
             !sed -i 's/sd1 \{15\}/`sd1label'/' `name'ols.txt
             !sed -i 's/iqr/`iqrlabel'/' `name'ols.tex
             !sed -i 's/iqr \{15\}/`iqrlabel'/' `name'ols.txt
-            !cp `name'ols.tex results
+            !cp `name'ols.tex results/
+            !cp `name'ols.txt results/
 }
 
 **********************************************************************
