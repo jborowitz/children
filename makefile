@@ -11,7 +11,7 @@ tdag02.dta : td02.dta make-2002-td.do
 	stata-mp -b do make-2002-td.do
 tdag07.dta : td07.dta make-2007-td.do
 	stata-mp -b do make-2007-td.do
-married.dta : make-cells.do cps97/cps_00003.dta
+married.dta : make-cells.do cps97/cps96-sample.dta
 	stata-mp -b do make-cells.do
 cps97/cps96-sample.dta : cps97/cps96.dta sample.do
 	stata-mp -b do sample.do	
