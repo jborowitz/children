@@ -7,11 +7,6 @@ set more off
 use twoSibsPared.dta
 drop *02
 drop if race > 2
-gen ageatbirth = parentage - chage
-gen teenmom = ageatbirth <=20
-gen blackXurban = black * urban
-gen blackXmarriedrateall = black * marriedrateall
-gen blackXmarriedraterace = black * marriedraterace
 drop if parentage < 0
 label variable black "Black"
 label variable blackXmarriedraterace "Black * % Married"
@@ -32,14 +27,14 @@ local tableiqr "stats(iqr sd1 r2 N)"
 local iqrlabel "IQR of R.T. Effect"
 local sd1label "1 sd of R.T. Effect"
 local percentiles "25 75"
-local unitlist "Mpubrec97 "
+local unitlist "Ffracrec97 FfracTOT97 Ffracbasic97 Ffraceduc97 Ffractravel97 Mfracrec97 MfracTOT97 Mfracbasic97 Mfraceduc97 Mfractravel97 "
 /*local unitlist "MTOT97"*/
-local x1 "black marriedraterace blackXmarriedraterace Mrec97 "
-local x2 "black marriedraterace blackXmarriedraterace Mrec97 chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
-local x3 "black marriedraterace blackXmarriedraterace Mrec97 hsdip cdip fhsdip fcdip income "
-local x4 "black marriedraterace blackXmarriedraterace Mrec97 hsdip cdip fhsdip fcdip income urban"
-local x5 "black marriedraterace blackXmarriedraterace Mrec97 chagem chagem2 hsdip cdip fhsdip fcdip   parentage income "
-local x6 "black marriedraterace blackXmarriedraterace Mrec97 chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
+local x1 "black marriedraterace blackXmarriedraterace "
+local x2 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
+local x3 "black marriedraterace blackXmarriedraterace hsdip cdip fhsdip fcdip income "
+local x4 "black marriedraterace blackXmarriedraterace hsdip cdip fhsdip fcdip income urban"
+local x5 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip   parentage income "
+local x6 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
 local X1 "`x1'"
 local X2 "`x2'"
 local X3 "`x3' `interactions'"
