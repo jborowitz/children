@@ -7,7 +7,7 @@ set more off
 set mem 1000m
 local kids "7"
 use cps-ipums.dta, clear
-keep if year == 1996
+/*keep if year == 1996*/
 /*Obvservable variables to get*/
 /*mschooling - mother's education*/
 /*nonwhite - race is not white - done*/
