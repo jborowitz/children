@@ -21,20 +21,21 @@ label variable urban "Urban Area"
 /*local unitlist "FTOT97  Fbasic97  Frec97  Ftravel97 Feduc97"*/
 /*local unitlist "BfracTOT97  Bfracbasic97  Bfracrec97  Bfractravel97 Bfraceduc97"*/
 /*local unitlist "BTOT97  Bbasic97  Brec97  Btravel97 Beduc97"*/
+local personlist "F M B"
 local interactions "i.famsize i.ageyoungest "
 local tableinteractions `"indicate("Dummies = *famsize *ageyoungest ", labels("X" " "))"'
 local tableiqr "stats(iqr sd1 r2 N)"
 local iqrlabel "IQR of R.T. Effect"
 local sd1label "1 sd of R.T. Effect"
 local percentiles "25 75"
-local unitlist "Ffracrec97 FfracTOT97 Ffracbasic97 Ffraceduc97 Ffractravel97 Mfracrec97 MfracTOT97 Mfracbasic97 Mfraceduc97 Mfractravel97 "
+local unitlist "rec97 TOT97 basic97 educ97 "
 /*local unitlist "MTOT97"*/
-local x1 "black marriedraterace blackXmarriedraterace "
-local x2 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
-local x3 "black marriedraterace blackXmarriedraterace hsdip cdip fhsdip fcdip income "
-local x4 "black marriedraterace blackXmarriedraterace hsdip cdip fhsdip fcdip income urban"
-local x5 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip   parentage income "
-local x6 "black marriedraterace blackXmarriedraterace chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
+local x1 "black "
+local x2 "black chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
+local x3 "black hsdip cdip fhsdip fcdip income "
+local x4 "black hsdip cdip fhsdip fcdip income urban"
+local x5 "black chagem chagem2 hsdip cdip fhsdip fcdip   parentage income "
+local x6 "black chagem chagem2 hsdip cdip fhsdip fcdip  urban parentage income "
 local X1 "`x1'"
 local X2 "`x2'"
 local X3 "`x3' `interactions'"
@@ -62,16 +63,15 @@ local tablist  ""
 * Start X Explore
 **********************************************************************
 foreach unit of local unitlist{
+foreach person of local personlist{
         eststo clear
-            local name `unit'
+            local name `person'`unit'
             local tablist "`tablist' `name'"
             foreach X of local xlist{
                         /*local y `unit'`person'`category'*/
-                        local y `unit'
-                        di "Running command: reg `y'   ``X'' if `mainrestriction' `weight', robust"
-                        di "``X''"
-                        /*eststo: reg `y'  ``X'' if `mainrestriction' `weight', vce(cluster family)*/
-                        eststo: reg `y'  ``X'' if `mainrestriction' `weight', robust
+                        local y `person'pub`unit'
+                        di "eststo: reg `y'  `person'`unit' ``X'' if `mainrestriction' `weight', robust"
+                        eststo: reg `y'  `person'`unit' ``X'' if `mainrestriction' `weight', robust
                         /*quietly _pctile   if `mainrestriction', percentiles(`percentiles')*/
                         /*matrix define beta = e(b)*/
                         /*local b = beta[1,1]*/
@@ -81,19 +81,18 @@ foreach unit of local unitlist{
                         /*estadd scalar iqr = `iqrvar' */
                         /*estadd scalar sd1 = `sd1var' */
             }
-        esttab using `name'ols.tex, se r2 keep(`keeplist' ) `tableinteractions' label fragment replace longtable
-            esttab using `name'ols.txt, se r2 keep(`keeplist' ) `tableinteractions' label fragment replace
-            !sed -i 's/o2y1/$ y_1 - o_2$ /g' `name'ols.tex
-            !sed -i 's/r2/$ R^2 $/' `name'ols.tex
-            !sed -i '/(1)/d' `name'ols.tex
-            !sed -i 's/1em/.25em/' `name'ols.tex
-            !sed -i 's/sd1/`sd1label'/' `name'ols.tex
-            !sed -i 's/%/\\%/' `name'ols.tex
-            !sed -i 's/sd1 \{15\}/`sd1label'/' `name'ols.txt
-            !sed -i 's/iqr/`iqrlabel'/' `name'ols.tex
-            !sed -i 's/iqr \{15\}/`iqrlabel'/' `name'ols.txt
-            !cp `name'ols.tex results
-            !cp `name'ols.txt results
+        esttab using `name'.tex, se r2 keep(`person'`unit' `keeplist' ) `tableinteractions' label fragment replace longtable
+            esttab using `name'.txt, se r2 keep(`person'`unit' `keeplist' ) `tableinteractions' label fragment replace
+            !sed -i 's/o2y1/$ y_1 - o_2$ /g' `name'.tex
+            !sed -i 's/r2/$ R^2 $/' `name'.tex
+            !sed -i '/(1)/d' `name'.tex
+            !sed -i 's/1em/.25em/' `name'.tex
+            !sed -i 's/sd1/`sd1label'/' `name'.tex
+            !sed -i 's/%/\\%/' `name'.tex
+            !sed -i 's/sd1 \{15\}/`sd1label'/' `name'.txt
+            !sed -i 's/iqr/`iqrlabel'/' `name'.tex
+            !sed -i 's/iqr \{15\}/`iqrlabel'/' `name'.txt
+}
 }
 
 **********************************************************************
@@ -101,6 +100,6 @@ foreach unit of local unitlist{
 **********************************************************************
 foreach  tab  of local tablist{
 !echo Outcome `tab'
-!cat `tab'ols.txt
+!cat `tab'.txt
 }
 !echo `tablist'
