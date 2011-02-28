@@ -80,10 +80,10 @@ foreach person of local personlist{
             local name `person'`unit'
             local tablist "`tablist' `name'"
             foreach X of local xlist{
-                        /*local y `unit'`person'`category'*/
-                        local y `person'pub`unit'
+                        local y `person'frac`unit'
+                        /*local y `person'pub`unit'*/
                         di "eststo: reg `y'  `person'`unit' ``X'' if `mainrestriction' `weight', robust"
-                        eststo: reg `y'  `person'`unit' ``X'' if `mainrestriction' `weight', robust
+                        eststo: reg `y'  ``X'' if `mainrestriction' `weight', robust
                         /*quietly _pctile   if `mainrestriction', percentiles(`percentiles')*/
                         /*matrix define beta = e(b)*/
                         /*local b = beta[1,1]*/
@@ -93,8 +93,8 @@ foreach person of local personlist{
                         /*estadd scalar iqr = `iqrvar' */
                         /*estadd scalar sd1 = `sd1var' */
             }
-        esttab using `name'.tex, se r2 keep(`person'`unit' `keeplist' ) `tableinteractions' label fragment replace longtable
-            esttab using `name'.txt, se r2 keep(`person'`unit' `keeplist' ) `tableinteractions' label fragment replace
+        esttab using `name'.tex, se r2 keep(`keeplist' ) `tableinteractions' label fragment replace longtable
+            esttab using `name'.txt, se r2 keep(`keeplist' ) `tableinteractions' label fragment replace
             !sed -i 's/o2y1/$ y_1 - o_2$ /g' `name'.tex
             !sed -i 's/r2/$ R^2 $/' `name'.tex
             !sed -i '/(1)/d' `name'.tex
