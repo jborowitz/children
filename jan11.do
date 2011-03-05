@@ -28,22 +28,23 @@ label variable BfracTOT97 "Frac. Public"
 label variable Bfractravel97 "Frac. Public"
 label variable urban "Urban Area"
 label variable blackXurban "Black * Urban Area"
-/*local personlist "F M "*/
-local personlist "F M B"
-local interactions "i.famsize i.ageyoungest "
-local tableinteractions `"indicate("Dummies = *famsize *ageyoungest ", labels("X" " "))"'
+local personlist "F M "
+/*local personlist "F M B"*/
+local interactions "i.famsize i.ageyoungest i.numrooms i.largestcity"
+/*local tableinteractions `"indicate("Dummies = *famsize *ageyoungest ", labels("X" " "))"'*/
+local tableinteractions `"indicate("Rooms = *numrooms" "Largest City = *largestcity" "Family Dummies = *famsize *ageyoungest ", labels("X" " "))"'
 local tableiqr "stats(iqr sd1 r2 N)"
 local iqrlabel "IQR of R.T. Effect"
 local sd1label "1 sd of R.T. Effect"
 local percentiles "25 75"
-/*local unitlist "rec97 TOT97 basic97 "*/
-local unitlist "rec97 TOT97 basic97 educ97 travel97"
-local x1 "black urban blackXurban "
-local x2 "black urban blackXurban momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
-local x3 "black urban blackXurban hsdip cdip fhsdip fcdip income "
-local x4 "black urban blackXurban momworkhours96 dadworkhours96 hsdip cdip fhsdip fcdip income "
-local x5 "black urban blackXurban momworkhours96 dadworkhours96"
-local x6 "black urban blackXurban momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
+local unitlist "rec97 TOT97 basic97 "
+/*local unitlist "rec97 TOT97 basic97 educ97 travel97"*/
+local x1 "black  momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
+local x2 "black housevalue urbanbeale housestructure pubhouse momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
+local x3 "black  momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
+local x4 "black urbanbeale pubhouse momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
+local x5 "black housevalue housestructure momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
+local x6 "black housevalue urbanbeale housestructure pubhouse  momworkhours96 dadworkhours96 chagem chagem2 hsdip cdip fhsdip fcdip parentage income "
 local X1 "`x1'"
 local X2 "`x2'"
 local X3 "`x3' `interactions'"

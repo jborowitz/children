@@ -1,6 +1,6 @@
 * How to handle directory variables here?  I think I want to set all the variables in the .do file
-global dir /home/jborowitz/psid
-global extractnum 121861
+global dir /home/jborowitz/project
+global extractnum 123176
 global extractname test
 global ID PCGID_97
 global PN PCGPN_97

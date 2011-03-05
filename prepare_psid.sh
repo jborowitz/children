@@ -21,7 +21,7 @@
 extractname='test'
 zipfile='psid.zip'
 mkdir tmp
-unzip $zipfile -d tmp
+unzip $zipfile -d tmp/
 
 cd tmp
 cdsvar=`basename *pdf .pdf`
@@ -34,8 +34,10 @@ cd ..
 
 cd tmp
 dir=`pwd`
-sed -i 's/\[path\]\\//' ${cdsvar}.do
-sed -i 's/\[path\]\\//' ${mapcdsvar}.do
+sed -i 's/\[path\]\\//' $cdsvar.do
+sed -i 's/\[path\]\\//' $mapcdsvar.do
+#sed -i 's/\[path\]\\//' ${cdsvar}.do
+#sed -i 's/\[path\]\\//' ${mapcdsvar}.do
 cd ..
 #Fix the .do file so that it is actually runable (remove the "[path]" marker)
 
@@ -57,7 +59,7 @@ mv tmp/$extractname-merged.dta .
 mv tmp/$extractname-psid.dta .
 mv tmp/$extractname-cds.dta .
 mv tmp/$extractname-parents.dta .
-rm -r tmp
+#rm -r tmp
 # Take the created .dta file and the documentation out of the
 # temporary folder and clean up.
 ################################################################################

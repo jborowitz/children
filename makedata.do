@@ -199,6 +199,14 @@ rename ER12080 flaborincome
 gen laborincome = mlaborincome + flaborincome
 rename ER12223 mschooling97
 rename ER12222 fschooling97
+rename ER10036 housevalue
+replace housevalue = 0 if housevalue >= 9999998
+rename 	ER10032 numrooms
+gen owns = ER10035 == 1
+gen pubhouse = ER10064 == 1| ER10068 == 1
+rename ER10017 housestructure
+rename ER16431 urbanbeale
+rename ER16432 largestcity
 /*replace mschooling97 = mschooling97 - 1 + ER11780 */
 /*replace fschooling97 = fschooling97 - 1 + ER11868*/
 gen kidhsdip = TA070548 == 1 if TA070548 != .
