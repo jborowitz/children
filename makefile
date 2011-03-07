@@ -15,6 +15,8 @@ tdag07.dta : td07.dta make-2007-td.do
 	stata-mp -b do make-2007-td.do
 married.dta : make-cells.do cps-ipums.dta
 	stata-mp -b do make-cells.do
+atus : prepare-atus.sh data/atuscps_0309.dta
+	./prepare-atus.sh
 clean : 
 	rm -f *ols.txt
 	rm -f *ols.tex
