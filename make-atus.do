@@ -58,11 +58,18 @@ drop _merge;
 
 keep if ptdtrace <= 2;
 foreach i of local childlist {;
-bysort gestfips ptdtrace: egen `i'cell = mean(`i');
+    bysort gestfips ptdtrace: egen `i'cellold = mean(`i');
+    /*This would generate weighted cell means:*/
+    bysort gestfips ptdtrace: gen double sumweight = sum(tufnwgtp);
+    bysort gestfips ptdtrace: replace sumweight=sumweight[_N];
+    gen double weightedoutcome = `i'*tufnwgtp/sumweight;
+    bysort gestfips ptdtrace: gen double `i'cell=sum(weightedoutcome);
+    bysort gestfips ptdtrace: replace `i'cell=`i'cell[_N];
+    drop sumweight weightedoutcome;
+    compress `i'cell;
 };
 bysort gestfips ptdtrace: gen cellsize = _N;
 save data/atus.dta, replace;
 duplicates drop gestfips ptdtrace, force;
-keep gestfips ptdtrace *cell cellsize;
+keep gestfips ptdtrace *cell cellsize *cellold;
 save data/cells.dta, replace;
-
