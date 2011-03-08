@@ -14,6 +14,7 @@ do
    unzip -n $i
    unzip -o $i $file.do 
    sed -i  's/c:\\//g' $file.do
+   sed -i  's/=//g' $file.do
    rm -f $file-new.do
    echo "clear" >> $file-new.do
    echo "set mem 300m" >> $file-new.do
