@@ -54,8 +54,8 @@ local tablist  ""
             foreach X of local xlist{
                 foreach category of local categorylist{
                     foreach RTvar of local RTvarlist{
-                        /*local y `person'`category'*/
-                        local y "BTOT02"
+                        local y `person'`category'
+                        /*local y "BTOT02"*/
                         di "Running command: reg `y'  ``RTvar'' ``X'' if `mainrestriction' `weight', robust"
                         di "``X''"
                         eststo: reg `y'  ``RTvar'' ``X'' if `mainrestriction' `weight', robust
@@ -201,19 +201,19 @@ local categorylist "TOT97 "
             foreach X of local xlist{
                 foreach restriction of local restrictionlist{
                     foreach category of local categorylist{
-                        /*foreach RTvar of local RTvarlist{*/
+                        foreach RTvar of local RTvarlist{
                             local y `person'`category'
-                            di "Running command: reg `y' ``RTvar'' `interactions' ``X''  if `mainrestriction' & `restriction', robust"
-                            eststo: reg `y' ``RTvar'' `interactions' ``X'' if `mainrestriction' & `restriction' `weight', robust
+                            di "Running command: reg `y' ``RTvar'' ``X''  if `mainrestriction' & `restriction', robust"
+                            eststo: reg `y' ``RTvar'' ``X'' if `mainrestriction' & `restriction' `weight', robust
                             quietly _pctile ``RTvar'' if `mainrestriction' & `restriction', percentiles(`percentiles')
                             matrix define beta = e(b)
                             local b = beta[1,1]
                             local iqrvar = (`r(r2)'-`r(r1)') * `b'
                             quietly sum ``RTvar'' if `mainrestriction' & `restriction', detail
                             local sd1var = `r(sd)' * `b'
-                            estadd scalar iqr = `iqrvar' 
-                            estadd scalar sd1 = `sd1var' 
-                        /*}*/
+                            estadd scalar iqr = `iqrvar'
+                            estadd scalar sd1 = `sd1var'
+                        }
                     }
                 }
             }
@@ -222,6 +222,10 @@ local categorylist "TOT97 "
             !sed -i 's/o1y2/$ y_2 - o_1$ /g' `name'ols.tex
             !sed -i 's/r2/$ R^2 $/' `name'ols.tex
             !sed -i '/(1)/d' `name'ols.tex
+            !sed -i '/(.)/d' `name'ols.txt
+            !sed -i '/^o./d' `name'ols.txt
+            !sed -i '/(.)/d' `name'ols.tex
+            !sed -i '/^o./d' `name'ols.tex
             !sed -i 's/1em/.25em/' `name'ols.tex
             !sed -i 's/sd1/`sd1label'/' `name'ols.tex
             !sed -i 's/sd1 \{15\}/`sd1label'/' `name'ols.txt
