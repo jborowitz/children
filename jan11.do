@@ -4,7 +4,7 @@ clear mata
 set mem 100m
 set more off
 use twoSibsPared.dta
-local stagecut 6
+local stagecut 5
 label variable selfBTOT97 "oiyi"
 local personlist "B"
 local categorylist "TOT97 "
