@@ -1,11 +1,13 @@
 clear matrix
 clear
 clear mata
-set mem 100m
+set maxvar 10000
+set mem 200m
 set more off
 use twoSibsPared.dta
 local stagecut 5
 label variable selfBTOT97 "oiyi"
+label variable BTOT97 "Time (hr/wk)"
 local personlist "B"
 local categorylist "TOT97 "
 local iqrlabel "IQR of R.T. Effect"
@@ -35,6 +37,8 @@ local RTvar1 "RT"
 local weight "[pweight=CH97PRWT] "
 local RTvarlist "RTvar1 "
 local keeplist "`RTvar1' `x5'"
+local keepshort "`RTvar1'"
+local dummiesshort `"indicate("Fam. Size/Age = *famsize *ageyoungest" "Demographics = chagem chagem2 nonwhite male parentage inschool" "Education = cdip hsdip fcdip fhsdip" "Income = income",labels("X" " "))"'
 local xlist "X1 X2 X3 X4 X5 X6"
 local mainrestriction "dadhead & mschooling97 < 97 & fschooling97 < 97 & selfBTOT97 != . "
 fvset base 3 famsize
@@ -70,8 +74,10 @@ local tablist  ""
                     }
                 }
             }
-        esttab using `name'ols.tex, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace longtable
+            esttab using `name'ols.tex, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace longtable
             esttab using `name'ols.txt, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace
+            esttab using `name'ols-short.tex, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
+            esttab using `name'ols-short.txt, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
             !sed -i 's/o2y1/$ y_1 - o_2$ /g' `name'ols.tex
             !sed -i 's/r2/$ R^2 $/' `name'ols.tex
             !sed -i '/(1)/d' `name'ols.tex
@@ -88,6 +94,7 @@ local tablist  ""
 **********************************************************************
 * Start time type
 **********************************************************************
+local dummiesshort `"indicate("Fam. Size/Age = *famsize *ageyoungest" "Demographics = chagem chagem2 nonwhite male parentage inschool" "Education = cdip hsdip fcdip fhsdip" ,labels("X" " "))"'
 local categorylist "TOT97 basic97 educ97 rec97 travel97"
 label variable BTOT97 "All Time"
 label variable Bbasic97 "Basic"
@@ -119,6 +126,8 @@ local keeplist "`RTvar1' `x6'"
             }
         esttab using `name'ols.tex, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace longtable
             esttab using `name'ols.txt, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace
+            esttab using `name'ols-short.tex, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
+            esttab using `name'ols-short.txt, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
             !sed -i 's/o1y2/$ y_2 - o_1$ /g' `name'ols.tex
             !sed -i 's/r2/$ R^2 $/' `name'ols.tex
             !sed -i '/(1)/d' `name'ols.tex
@@ -138,6 +147,7 @@ local keeplist "`RTvar1' `x6'"
 **********************************************************************
 * Start Housewives
 **********************************************************************
+local dummiesshort `"indicate("Fam. Size/Age = *famsize *ageyoungest" "Demographics = chagem chagem2 nonwhite male parentage inschool" "Education = cdip hsdip fcdip fhsdip" ,labels("X" " "))"'
 local restrictionlist " `" 1"' `"wifeinlf == 0"' `"wifeinlf == 1"' "
 local xlist "X3 X6"
 local keeplist "`RTvar1' `x6'"
@@ -169,6 +179,8 @@ local titles `" "All " " Not in LF " " In LF " "All " " Not in LF " " In LF " "'
             }
         esttab using `name'ols.tex, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace longtable mtitles(`titles')
             esttab using `name'ols.txt, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace mtitles(`titles')
+            esttab using `name'ols-short.tex, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
+            esttab using `name'ols-short.txt, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
             !sed -i 's/o1y2/$ y_2 - o_1$ /g' `name'ols.tex
             !sed -i 's/r2/$ R^2 $/' `name'ols.tex
             !sed -i '/(1)/d' `name'ols.tex
@@ -191,6 +203,7 @@ gen s2 = chage > `stagecut'
 local restrictionlist " `" 1"' `" s1 "' `" s2 "' "
 local xlist "X3 X6"
 local keeplist "`RTvar1' `x6'"
+local dummiesshort `"indicate("Fam. Size/Age = *famsize *ageyoungest" "Demographics = chagem chagem2 nonwhite male parentage inschool" "Education = cdip hsdip fcdip fhsdip" ,labels("X" " "))"'
 /*local titles `" `"All "' `"  Age $ \leq `stagecut'$ "' "  Age $ > `stagecut'$" "All " "  Age $ \leq `stagecut'$ " "  Age $ > `stagecut'$ " "'*/
 local titles `""Both $ \leq `stagecut'$" "Both $ > `stagecut'$ " "Span `stagecut'" "Both $ \leq `stagecut'$" "Both $ > `stagecut'$ " "Span `stagecut'" "'
 local categorylist "TOT97 "
@@ -217,8 +230,10 @@ local categorylist "TOT97 "
                     }
                 }
             }
-        esttab using `name'ols.tex, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace longtable mtitles(`titles')
+            esttab using `name'ols.tex, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace longtable mtitles(`titles')
             esttab using `name'ols.txt, se r2 keep(`keeplist' ) `tableinteractions' label `tableiqr' fragment replace mtitles(`titles')
+            esttab using `name'ols-short.tex, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
+            esttab using `name'ols-short.txt, se r2 keep(`keepshort' ) `dummiesshort' label fragment replace longtable mtitles(`titles')
             !sed -i 's/o1y2/$ y_2 - o_1$ /g' `name'ols.tex
             !sed -i 's/r2/$ R^2 $/' `name'ols.tex
             !sed -i '/(1)/d' `name'ols.tex
@@ -238,6 +253,7 @@ local categorylist "TOT97 "
 **********************************************************************
 foreach  tab  of local tablist{
 !echo `tab':
-!cat `tab'ols.txt
+/*!cat `tab'ols.txt*/
+!cat `tab'ols-short.txt
 }
 !echo `tablist'
