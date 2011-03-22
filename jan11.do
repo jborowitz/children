@@ -7,7 +7,7 @@ set more off
 use twoSibsPared.dta
 local stagecut 5
 label variable selfBTOT97 "oiyi"
-label variable BTOT97 "Time (hr/wk)"
+label variable BTOT97 "Hr/Wk"
 local personlist "B"
 local categorylist "TOT97 "
 local iqrlabel "IQR of R.T. Effect"
