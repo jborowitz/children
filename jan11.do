@@ -204,8 +204,8 @@ local restrictionlist " `" 1"' `" s1 "' `" s2 "' "
 local xlist "X3 X6"
 local keeplist "`RTvar1' `x6'"
 local dummiesshort `"indicate("Fam. Size/Age = *famsize *ageyoungest" "Demographics = chagem chagem2 nonwhite male parentage inschool" "Education = cdip hsdip fcdip fhsdip" ,labels("X" " "))"'
-/*local titles `" `"All "' `"  Age $ \leq `stagecut'$ "' "  Age $ > `stagecut'$" "All " "  Age $ \leq `stagecut'$ " "  Age $ > `stagecut'$ " "'*/
-local titles `""Both $ \leq `stagecut'$" "Both $ > `stagecut'$ " "Span `stagecut'" "Both $ \leq `stagecut'$" "Both $ > `stagecut'$ " "Span `stagecut'" "'
+local titles `" `"All "' `"  Age $ \leq `stagecut'$ "' "  Age $ > `stagecut'$" "All " "  Age $ \leq `stagecut'$ " "  Age $ > `stagecut'$ " "'
+/*local titles `""Both $ \leq `stagecut'$" "Both $ > `stagecut'$ " "Span `stagecut'" "Both $ \leq `stagecut'$" "Both $ > `stagecut'$ " "Span `stagecut'" "'*/
 local categorylist "TOT97 "
     foreach person of local personlist{
         eststo clear
