@@ -370,6 +370,7 @@ save temp.dta, replace
 foreach person of local personlist{
   foreach category of local categorylist{
   gen self`person'`category'97 = `person'`category'97 - `person'`category'02
+  gen selffrac`person'`category'97 = `person'`category'97/`person'`category'02
   gen self`person'`category'avg = (`person'`category'02 + `person'`category'97)/2
   foreach year of local yearlist{
     sort PCGID_97 PCGPN_97 chagem
@@ -421,6 +422,8 @@ foreach person of local personlist{
     by PCGID_97 PCGPN_97: gen tempn = _n
     by PCGID_97 PCGPN_97: gen odiff`person'`category'`year' =  sibval - `person'`category'`year'
     by PCGID_97 PCGPN_97: replace odiff`person'`category'`year' = odiff`person'`category'`year'[_n+1] if odiff`person'`category'`year' == .
+    by PCGID_97 PCGPN_97: gen odifffrac`person'`category'`year' =  sibval / `person'`category'`year'
+    by PCGID_97 PCGPN_97: replace odifffrac`person'`category'`year' = odifffrac`person'`category'`year'[_n+1] if odifffrac`person'`category'`year' == .
     /*sum odiff`person'`category'`year' sibval temp**/
     count if sibval == .
     count if odiff`person'`category'`year' == .
@@ -813,6 +816,7 @@ foreach person of local personlist{
     label variable diff`person'`category'`year' "`pstring' `cstring' Diff"
     label variable ddiff`person'`category'`year' "`pstring' `cstring' Disc."
     label variable odiff`person'`category'`year' "`pstring' `cstring' (Y-O)"
+    label variable odifffrac`person'`category'`year' "`pstring' `cstring' (Y/O)"
     label variable old`person'`category'`year' "`pstring' `cstring' w/ Old"
     label variable dold`person'`category'`year' "`pstring' `cstring' w/ Old (D)"
     label variable young`person'`category'`year' "`pstring' `cstring' w/ Young"
@@ -825,6 +829,7 @@ foreach person of local personlist{
     label variable ldiff`person'`category'`year' "log(`pstring' `cstring' Diff. (hr))"
     if "`year'" == "97"{
         label variable self`person'`category'`year' "`pstring' `cstring' 5 yr. $\Delta$"
+        label variable selffrac`person'`category'`year' "`pstring' `cstring' Ratio"
     }
   }
 }
