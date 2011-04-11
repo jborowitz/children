@@ -72,3 +72,27 @@ subtitle("By Father's Risk Tolerance level");
 graph export `category'.eps, replace;
 };
 #delimit cr
+**********************************************************************
+* Tiem type over childhood graph
+local person "B"
+local year "97"
+local components "`person'basic`year' `person'rec`year' `person'travel`year' `person'educ`year'"
+local restriction "chage < 13 & dadhead"
+  if "`person'" == "M"{
+    local pstring "Mother's"
+  }
+  if "`person'" == "F"{
+    local pstring "Father's"
+  }
+  if "`person'" == "B"{
+    local pstring "Both Parents'"
+  }
+graph bar (mean) `components' if `restriction', legend(label(1 "Basic Care") label(2 "Recreation") label(3 "Travel") label(4 "Education") order(1 2 3 4) ) title("`pstring' Time by Child's Age in 1997") over(chage) stack ytitle("Hours per Week") 
+graph export temp.eps, replace
+!epstopdf temp.eps
+/*serrbar dlw sedlw year, addplot((tsline unemployment, c(l) yaxis(2))) title("Log Wage Changes over Time")  legend(label(1 "Standard Error") label(2 "Avg. Log Wage Change") label(3 "Unemployment Rate")  order(2 3 1 - "" )) ytitle("Log Wage Change") xtitle("Year") ytitle("Unemployment Rate", axis(2))*/
+/*graph export dlw.png, replace*/
+/*!cp dlw.png results*/
+
+
+**********************************************************************
