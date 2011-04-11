@@ -208,6 +208,12 @@ bysort ER30001 ER30002: egen NpubTOT97 = total((5*WDNpubTOT97+ 2*WENpubTOT97)/36
 bysort ER30001 ER30002: egen ApubTOT97 = total((5*WDApubTOT97+ 2*WEApubTOT97)/3600)
 gen BpubTOT97 = FpubTOT97 + MpubTOT97
 gen OpubTOT97 = BpubTOT97 - ApubTOT97
+gen Mnobasic97 = MTOT97 - Mbasic97
+gen Fnobasic97 = FTOT97 - Fbasic97
+gen Bnobasic97 = BTOT97 - Bbasic97
+gen Nnobasic97 = NTOT97 - Nbasic97
+gen Anobasic97 = ATOT97 - Abasic97
+gen Onobasic97 = Bnobasic97 - Anobasic97 
 egen wday = max(T1) if WDAYWEND == 1
 egen wend = max(T1) if WDAYWEND == 0
 /*drop WDMTOT97 WEMTOT97 WDFTOT97 WEFTOT97 WDFTOT97 WEFTOT97 WDATOT97 WEATOT97*/

@@ -133,6 +133,11 @@ gen BpubTOT02 = FpubTOT02 + MpubTOT02
 gen OpubTOT02 = BpubTOT02 - ApubTOT02
 gen BTOT02 = FTOT02 + MTOT02
 gen OTOT02 = BTOT02 - ATOT02
+gen Mnobasic02 = MTOT02 - Mbasic02
+gen Fnobasic02 = FTOT02 - Fbasic02
+gen Bnobasic02 = BTOT02 - Bbasic02
+gen Nnobasic02 = NTOT02 - Nbasic02
+gen Anobasic02 = ATOT02 - Abasic02
 gen Onotravel02 = Bnotravel02 - Anotravel02
 gen OSUM02 = BSUM02 - ASUM02
 /*drop WDMTOT02 WEMTOT02 WDFTOT02 WEFTOT02 WDNTOT02 WENTOT02 WDATOT02 WEATOT02*/

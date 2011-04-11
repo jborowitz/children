@@ -105,6 +105,11 @@ bysort ER30001 ER30002: egen NTOT07 = total((5*WDNTOT07+ 2*WENTOT07)/3600)
 bysort ER30001 ER30002: egen ATOT07 = total((5*WDATOT07+ 2*WEATOT07)/3600)
 gen BTOT07 = FTOT07 + MTOT07
 gen OTOT07 = BTOT07 - ATOT07
+gen Mnobasic07 = MTOT07 - Mbasic07
+gen Fnobasic07 = FTOT07 - Fbasic07
+gen Bnobasic07 = BTOT07 - Bbasic07
+gen Nnobasic07 = NTOT07 - Nbasic07
+gen Anobasic07 = ATOT07 - Abasic07
 gen Onotravel07 = Bnotravel07 - Anotravel07
 gen OSUM07 = BSUM07 - ASUM07
 /*drop WDMTOT07 WEMTOT07 WDFTOT07 WEFTOT07 WDNTOT07 WENTOT07 WDATOT07 WEATOT07*/
