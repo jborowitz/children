@@ -67,9 +67,11 @@ drop.list <- list('income','RT','ageyoungest02','SBLNUM03')
 keep.list  <-  list('RT','chagem',  'chagem2',  'cdip',  'hsdip')
 #columns <- c('Model 1','OLS','IV')
 #o<-esttab2()
-o<-esttab2(filename='temp.txt',indicate=ind.list, keep=keep.list,
+o<-esttab2(filename='Bols.txt',indicate=ind.list, keep=keep.list,
           col.width=15, var.rename=vrn, se.func=myvcov)
-system('cat temp.txt')
+o<-esttab2(filename='Bols.tex',indicate=ind.list, keep=keep.list,
+          col.width=15, var.rename=vrn, se.func=myvcov)
+system('cat Bols.txt')
 
 ################################################################################
 # Begin Time-Type
@@ -87,10 +89,13 @@ for(b in categories){
     eststo2(res1, list('1 S.D. Effect'=sd.effect1, 'I.Q.R.  Effect)'=iqr.effect1))
 }
 columns <- c('All','Basic','Educ.','Rec.','Travel')
-o<-esttab2(filename='temp.txt',indicate=ind.list, keep=keep.list,
+o<-esttab2(filename='Btypeols.txt',indicate=ind.list, keep=keep.list,
            col.width=15, var.rename=vrn, se.func=myvcov,
            col.headers=columns)
-system('cat temp.txt')
+o<-esttab2(filename='Btypeols.tex',indicate=ind.list, keep=keep.list,
+           col.width=15, var.rename=vrn, se.func=myvcov,
+           col.headers=columns)
+system('cat Btypeols.txt')
 ################################################################################
 # End Time-Type
 ################################################################################
@@ -114,10 +119,13 @@ for(i in Xs){
     }
 }
 columns <- c('yi - oi','yi','oi','yi - oi','yi','oi')
-o<-esttab2(filename='temp.txt',indicate=ind.list, keep=keep.list,
+o<-esttab2(filename='Bage-breakdown.txt',indicate=ind.list, keep=keep.list,
            col.width=19, var.rename=vrn, se.func=myvcov,
            col.headers=columns)
-system('cat temp.txt')
+o<-esttab2(filename='Bage-breakdown.tex',indicate=ind.list, keep=keep.list,
+           col.width=19, var.rename=vrn, se.func=myvcov,
+           col.headers=columns)
+system('cat Bage-breakdown.txt')
 ################################################################################
 # End Old-Young
 ################################################################################
@@ -149,10 +157,13 @@ for(i in Xs){
     eststo2(res3, list('1 S.D. Effect'=sd.effect3, 'I.Q.R.  Effect)'=iqr.effect3))
 }
 columns <- c('All','Not in LF','In LF','All','Not in LF','In LF')
-o<-esttab2(filename='temp.txt',indicate=ind.list, keep=keep.list,
+o<-esttab2(filename='Bhousewivesols.txt',indicate=ind.list, keep=keep.list,
            col.width=19, var.rename=vrn, se.func=myvcov,
            col.headers=columns)
-system('cat temp.txt')
+o<-esttab2(filename='Bhousewivesols.tex',indicate=ind.list, keep=keep.list,
+           col.width=19, var.rename=vrn, se.func=myvcov,
+           col.headers=columns)
+system('cat Bhousewivesols.txt')
 ################################################################################
 # End Housewives
 ################################################################################
@@ -181,7 +192,13 @@ for(i in Xs){
     eststo2(res3, list('1 S.D. Effect'=sd.effect3, 'I.Q.R.  Effect)'=iqr.effect3))
 }
 columns <- c('All','Not in LF','In LF','All','Not in LF','In LF')
-o<-esttab2(filename='temp.txt',indicate=ind.list, keep=keep.list,
+o<-esttab2(filename='Bstageols.txt',indicate=ind.list, keep=keep.list,
            col.width=19, var.rename=vrn, se.func=myvcov,
            col.headers=columns)
-system('cat temp.txt')
+o<-esttab2(filename='Bstageols.tex',indicate=ind.list, keep=keep.list,
+           col.width=19, var.rename=vrn, se.func=myvcov,
+           col.headers=columns)
+system('cat Bstageols.txt')
+################################################################################
+# End Age Level
+################################################################################
