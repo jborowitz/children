@@ -47,7 +47,7 @@ interactions <- 'famsize + ageyoungest + SBLNUM03 +  ageyoungest02'
 int <- c(rep('',2),rep(interactions,4))
 Xs <- c('BTOT97' 
         ,'BTOT97 + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool' 
-        ,'BTOT97' 
+        ,'BTOT97 ' 
         ,'BTOT97 + chagem + chagem2 + nonwhite + male + parentage + income + inschool' 
         ,'BTOT97 + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool'
         ,'BTOT97 + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + inschool')
@@ -79,7 +79,8 @@ outputlist <- c('BTOT02','Beduc02','Btravel02','Brec02','Bbasic02')
 #,paste('nappliedscore02 ~ nmathscore + nreadscore + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + inschool',interactions,sep=" + "))
 
 for(outputvar in outputlist){
-estclear()
+estclear('first')
+estclear('second')
 for(f in wholeX){
     math.firststage.formula <- paste(paste(ymath,xmath,sep=" ~ "),f,sep=" + ")
     math.secondstage.formula <- paste(outputvar,'~',paste('mathresids',xmath,f,sep=" + "))
@@ -87,7 +88,8 @@ for(f in wholeX){
     datasubset$mathresids <- resid(mathfirststage)
     math.secondstage <- lm(math.secondstage.formula, weight=CH97PRWT, data=datasubset)
     sd.effect <- sd(resid(mathfirststage),na.rm=TRUE)*coef(math.secondstage)[['mathresids']]
-    eststo2(math.secondstage,list('1 S.D. Effect'=sd.effect))
+    eststo2(math.secondstage,list('1 S.D. Effect'=sd.effect), tableName='second')
+    eststo2(mathfirststage, tableName='first')
     datasubset$mathresids <- NULL
     print('_________________________________________')
     print(math.firststage.formula)
@@ -98,11 +100,13 @@ columns <- rep(outputvar,6)
 vrn <- list('RT'='Risk Tolerance','income'='Income /100k', 'chagem'='Age (Months)',
 'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','nreadscore'='1997 Read','nmathscore'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.')
 drop.list <- list('income','RT','ageyoungest02','SBLNUM03')
-keep.list  <-  list('mathresids','readresids','nappliedscore02','nreadscore02','nmathscore','nreadscore','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
+keep.list  <-  list('mathresids','readresids','nappliedscore02','nreadscore02','home97','nmathscore','nreadscore','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
 outfile <- paste(outputvar,'math',sep='')
-o<-esttab2(filename=paste(outfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
-o<-esttab2(filename=paste(outfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
+o<-esttab2(filename=paste(outfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='second')
+o<-esttab2(filename=paste(outfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='second')
+o<-esttab2(filename=paste('temp','.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='first')
 system(paste('cat ',outfile,'.txt',sep=''))
+system(paste('cat ','temp','.txt',sep=''))
 
 estclear()
 for(f in wholeX){
