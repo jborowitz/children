@@ -1,3 +1,5 @@
 *.dta
 cps97/*.dta
 *.log
+*.RData
+.*
