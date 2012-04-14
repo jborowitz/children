@@ -1,6 +1,6 @@
 #library('estout','zoo','sandwich')
 library('zoo')
-library('sandwich',lib='/home/jborowitz/R/x86_64-redhat-linux-gnu-library')
+library('sandwich')
 library('abind')
 library('xtable')
 library('stringr')
