@@ -3,3 +3,5 @@ cps97/*.dta
 *.log
 *.RData
 .*
+*.zip
+tree/
