@@ -68,7 +68,7 @@ wholeX <- gsub('^ \\+ ','',wholeX)
 #firstformulas <- paste(paste(y,scores,sep=' '),paste(int,Xs,sep=' + '),sep = ' + ')
 #firstformulas <- gsub('\\+  \\+','\\+',firstformulas)
 #firstformulas <- gsub('\\+ $','',firstformulas)
-outputlist <- c('BTOT02','Beduc02','Btravel02','Brec02','Bbasic02')
+outputlist <- c('BTOT02')
 #outputvar <- 'Btravel02'
 #firstformulas <- c(
                    #'nappliedscore02 ~ nmathscore + nreadscore'
@@ -101,14 +101,14 @@ vrn <- list('RT'='Risk Tolerance','income'='Income /100k', 'chagem'='Age (Months
 'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','nreadscore'='1997 Read','nmathscore'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.')
 drop.list <- list('income','RT','ageyoungest02','SBLNUM03')
 keep.list  <-  list('mathresids','readresids','nappliedscore02','nreadscore02','home97','nmathscore','nreadscore','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
-outfile <- paste(outputvar,'math',sep='')
-o<-esttab2(filename=paste(outfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='second')
-o<-esttab2(filename=paste(outfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='second')
-o<-esttab2(filename=paste('temp','.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='first')
-system(paste('cat ',outfile,'.txt',sep=''))
-system(paste('cat ','temp','.txt',sep=''))
+mathoutfile <- paste(outputvar,'math',sep='')
+o<-esttab2(filename=paste(mathoutfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='second')
+o<-esttab2(filename=paste(mathoutfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='second')
+columns <- rep(ymath,6)
+o<-esttab2(filename=paste('tempmath','.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='first')
 
 estclear()
+estclear('first')
 for(f in wholeX){
     read.firststage.formula <- paste(paste(yread,xread,sep=" ~ "),f,sep=" + ")
     readfirststage <- lm(read.firststage.formula, weight=CH97PRWT, data=datasubset,na.action=na.exclude)
@@ -117,6 +117,7 @@ for(f in wholeX){
     read.secondstage <- lm(read.secondstage.formula, weight=CH97PRWT, data=datasubset)
     sd.effect <- sd(resid(readfirststage),na.rm=TRUE)*coef(read.secondstage)[['readresids']]
     eststo2(read.secondstage,list('1 S.D. Effect'=sd.effect))
+    eststo2(mathfirststage, tableName='first')
     datasubset$readresids <- NULL
     print('_________________________________________')
     print(read.firststage.formula)
@@ -128,9 +129,18 @@ vrn <- list('RT'='Risk Tolerance','income'='Income /100k', 'chagem'='Age (Months
 'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','nreadscore'='1997 Read','nmathscore'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.')
 drop.list <- list('income','RT','ageyoungest02','SBLNUM03')
 keep.list  <-  list('mathresids','readresids','nappliedscore02','nreadscore02','nmathscore','nreadscore','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
-outfile <- paste(outputvar,'read',sep='')
-o<-esttab2(filename=paste(outfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
-o<-esttab2(filename=paste(outfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
-system(paste('cat ',outfile,'.txt',sep=''))
+readoutfile <- paste(outputvar,'read',sep='')
+o<-esttab2(filename=paste(readoutfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
+o<-esttab2(filename=paste(readoutfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
+columns <- rep(yread,6)
+o<-esttab2(filename=paste('tempread','.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='first')
+print('Math First Stage')
+system(paste('cat ','tempmath','.txt',sep=''))
+print('Math Second Stage')
+system(paste('cat ',mathoutfile,'.txt',sep=''))
+print('Reading First Stage')
+system(paste('cat ','tempread','.txt',sep=''))
+print('Reading Second Stage')
+system(paste('cat ',readoutfile,'.txt',sep=''))
 }
 
