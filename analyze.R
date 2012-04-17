@@ -13,6 +13,7 @@ source('../estout2/estclear.R')
 #source('pdb.R')
 sink('/dev/null')
 load('twoSibsPared.RData')
+#load('pcgPared.RData')
 sink()
 strin <- 'subset=dadhead & mschooling97 < 97 & fschooling97 < 97 & !is.na(selfBTOT97) & SBLNUM03 != 96 & SBLNUM03 != 5 & !is.na(nreadscore) & !is.na(nmathscore) & !is.na(nappliedscore02)'
 #r <- subset(data,as.expression(strin))
