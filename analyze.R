@@ -15,10 +15,6 @@ sink('/dev/null')
 load('twoSibsPared.RData')
 #load('pcgPared.RData')
 sink()
-strin <- 'subset=dadhead & mschooling97 < 97 & fschooling97 < 97 & !is.na(selfBTOT97) & SBLNUM03 != 96 & SBLNUM03 != 5 & !is.na(nreadscore) & !is.na(nmathscore) & !is.na(nappliedscore02)'
-#r <- subset(data,as.expression(strin))
-datasubset <- subset(data,subset=dadhead & mschooling97 < 97 & fschooling97 < 97 &
-            !is.na(BTOT02) & SBLNUM03 != 96 & SBLNUM03 != 5 & !is.na(nreadscore02) &  !is.na(nappliedscore02))
 #print(NROW(datasubset))
 #rm(d)
 #attach(datasubset)
@@ -35,11 +31,6 @@ myvcov<-function(x){
     vcovHC(x,type='HC0')
 
 }
-datasubset$famsize <- as.factor(datasubset$famsize)
-datasubset$ageyoungest <- as.factor(datasubset$ageyoungest)
-datasubset$SBLNUM03 <- as.factor(datasubset$SBLNUM03)
-datasubset$ageyoungest02 <- as.factor(datasubset$ageyoungest02)
-datasubset$BTOT0 <- datasubset$BTOT02 + datasubset$BTOT07
 #contrasts(SBLNUM03)<-'contr.sum'
 #f1  <-  formula(odiffBTOT97  ~  RT  +  income  +  famsize  +  ageyoungest)
 ss  <-   'mschooling97   <   90   &   fschooling97   <   90   &   dadhead)'
