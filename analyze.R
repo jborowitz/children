@@ -44,9 +44,9 @@ Xs <- c('1'
         ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool'
         ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + inschool')
 
-xmath <- c('stdmath97*chagem')
-xread <- c('stdread97*chagem')
-investment <- c('BTOT02')
+xmath <- c('stdmath02*chagem')
+xread <- c('stdread02*chagem')
+investment <- c('home97')
 #scores <- c('avgscore97 ')
 wholeX <- paste(int,Xs,sep=' + ')
 wholeX <- gsub('\\+  \\+','\\+',wholeX)
@@ -57,7 +57,8 @@ wholeX <- gsub('^\\+ ','',wholeX)
 #firstformulas <- paste(paste(y,scores,sep=' '),paste(int,Xs,sep=' + '),sep = ' + ')
 #firstformulas <- gsub('\\+  \\+','\\+',firstformulas)
 #firstformulas <- gsub('\\+ $','',firstformulas)
-outputlist <- c('BTOT02')
+#outputlist <- c('BTOT02')
+outputlist <- c('BTOT02','BTOT97','home97','home02')
 #outputvar <- 'Btravel02'
 #firstformulas <- c(
                    #'stdmath02 ~ stdmath97 + stdread97'
@@ -71,22 +72,21 @@ for(outputvar in outputlist){
 estclear('math')
 estclear('read')
 for(f in wholeX){
-    math.firststage.formula <- paste(paste(investment,xmath,sep=" ~ "),f,sep=" + ")
-    read.firststage.formula <- paste(paste(investment,xread,sep=" ~ "),f,sep=" + ")
-    #math.secondstage.formula <- paste(outputvar,'~',paste('mathresids*chagem',xmath,sep=" + "))
-    mathfirststage <- lm(math.firststage.formula, weight=CH97PRWT, data=datasubset,na.action=na.exclude)
-    readfirststage <- lm(read.firststage.formula, weight=CH97PRWT, data=datasubset,na.action=na.exclude)
-    #datasubset$mathresids <- resid(mathfirststage)
+    math.formula <- paste(paste(outputvar,xmath,sep=" ~ "),f,sep=" + ")
+    read.formula <- paste(paste(outputvar,xread,sep=" ~ "),f,sep=" + ")
+    math.result <- lm(math.formula, weight=CH97PRWT, data=datasubset,na.action=na.exclude)
+    read.result <- lm(read.formula, weight=CH97PRWT, data=datasubset,na.action=na.exclude)
+    #datasubset$mathresids <- resid(math)
     #math.secondstage <- lm(math.secondstage.formula, weight=CH97PRWT, data=datasubset)
-    #sd.effect <- sd(resid(mathfirststage),na.rm=TRUE)*coef(math.secondstage)[['mathresids']]
+    #sd.effect <- sd(resid(math),na.rm=TRUE)*coef(math.secondstage)[['mathresids']]
     #eststo2(math.secondstage,list('1 S.D. Effect'=sd.effect), tableName='second')
-    eststo2(mathfirststage, tableName='math')
-    eststo2(readfirststage, tableName='read')
+    eststo2(math.result, tableName='math')
+    eststo2(read.result, tableName='read')
     print('_________________________________________')
-    print(math.firststage.formula)
-    print(read.firststage.formula)
+    print(math.formula)
+    print(read.formula)
 }
-ind.list <- list('Age of Youngest'='ageyoungest.*','Family Size'='SBLNUM*')
+ind.list <- list('Age of Youngest'='ageyoungest.*','Family Size'='SBLNUM03.*')
 columns <- rep(outputvar,6)
 vrn <- list('RT'='Risk Tolerance','income'='Income /100k', 'chagem'='Age (Months)',
 'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','stdread97'='1997 Read','stdmath97'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.','stdmath02:chagem'='2002 Math * Age','stdread02:chagem'='2002 Read * Age','stdmath02'='2002 Math','stdread02'='2002 Read','stdread97:chagem'='1997 Read * Age','stdmath97:chagem'='1997 Math * Age')
@@ -99,34 +99,6 @@ o<-esttab2(filename=paste(mathoutfile,'.tex',sep=''),indicate=ind.list,  col.wid
 o<-esttab2(filename=paste(readoutfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='read')
 o<-esttab2(filename=paste(readoutfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='read')
 
-#estclear()
-#estclear('first')
-#for(f in wholeX){
-    #read.firststage.formula <- paste(paste(yread,xread,sep=" ~ "),f,sep=" + ")
-    ##readfirststage <- lm(read.firststage.formula, weight=CH97PRWT, data=datasubset,na.action=na.exclude)
-    ##print(summary(readfirststage))
-    ##datasubset$readresids <- resid(readfirststage)
-    ##read.secondstage.formula <- paste(outputvar,'~',paste('readresids*chagem',xread,sep=" + "))
-    ##read.secondstage <- lm(read.secondstage.formula, weight=CH97PRWT, data=datasubset)
-    ##sd.effect <- sd(resid(readfirststage),na.rm=TRUE)*coef(read.secondstage)[['readresids']]
-    ##eststo2(read.secondstage,list('1 S.D. Effect'=sd.effect))
-    #eststo2(mathfirststage, tableName='first')
-    #datasubset$readresids <- NULL
-    #print('_________________________________________')
-    #print(read.firststage.formula)
-    ##print(read.secondstage.formula)
-#}
-#ind.list <- list('Age of Youngest'='ageyoungest.*','Family Size'='famsize.*')
-#columns <- rep(outputvar,6)
-#vrn <- list('RT'='Risk Tolerance','income'='Income /100k', 'chagem'='Age (Months)',
-#'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','stdread97'='1997 Read','stdmath97'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.')
-#drop.list <- list('income','RT','ageyoungest02','SBLNUM03')
-#keep.list  <-  list('mathresids','readresids','stdmath02','stdread02','readresids:chagem','mathresids:chagem','home97','stdmath97','stdread97','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
-#readoutfile <- paste(outputvar,'read',sep='')
-#o<-esttab2(filename=paste(readoutfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
-#o<-esttab2(filename=paste(readoutfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
-#columns <- rep(yread,6)
-#o<-esttab2(filename=paste('tempread','.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='first')
 print('Math Second Stage')
 system(paste('cat ',mathoutfile,'.txt',sep=''))
 print('Reading Second Stage')
