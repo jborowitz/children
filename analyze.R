@@ -44,13 +44,8 @@ Xs <- c('1'
         ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool'
         ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + inschool')
 
-yread <- 'nreadscore02 '
-ymath <- 'nappliedscore02 '
-#y <- 'avgscore02 ~'
-scores <- c('nmathscore + nreadscore')
-#scores <- c('nreadscore')
-xmath <- c('nappliedscore02*chagem')
-xread <- c('nreadscore02*chagem')
+xmath <- c('stdmath97*chagem')
+xread <- c('stdread97*chagem')
 investment <- c('BTOT02')
 #scores <- c('avgscore97 ')
 wholeX <- paste(int,Xs,sep=' + ')
@@ -65,12 +60,12 @@ wholeX <- gsub('^\\+ ','',wholeX)
 outputlist <- c('BTOT02')
 #outputvar <- 'Btravel02'
 #firstformulas <- c(
-                   #'nappliedscore02 ~ nmathscore + nreadscore'
-#,'nappliedscore02 ~ nmathscore + nreadscore + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool'
-#,paste('nappliedscore02 ~ nmathscore + nreadscore',interactions,sep=" + ")
-#,paste('nappliedscore02 ~ nmathscore + nreadscore + chagem + chagem2 + nonwhite + male + parentage + income + inschool',interactions,sep=" + ")
-#,paste('nappliedscore02 ~ nmathscore + nreadscore + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool',interactions,sep=" + ")
-#,paste('nappliedscore02 ~ nmathscore + nreadscore + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + inschool',interactions,sep=" + "))
+                   #'stdmath02 ~ stdmath97 + stdread97'
+#,'stdmath02 ~ stdmath97 + stdread97 + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool'
+#,paste('stdmath02 ~ stdmath97 + stdread97',interactions,sep=" + ")
+#,paste('stdmath02 ~ stdmath97 + stdread97 + chagem + chagem2 + nonwhite + male + parentage + income + inschool',interactions,sep=" + ")
+#,paste('stdmath02 ~ stdmath97 + stdread97 + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool',interactions,sep=" + ")
+#,paste('stdmath02 ~ stdmath97 + stdread97 + chagem + chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + inschool',interactions,sep=" + "))
 
 for(outputvar in outputlist){
 estclear('math')
@@ -94,9 +89,9 @@ for(f in wholeX){
 ind.list <- list('Age of Youngest'='ageyoungest.*','Family Size'='SBLNUM*')
 columns <- rep(outputvar,6)
 vrn <- list('RT'='Risk Tolerance','income'='Income /100k', 'chagem'='Age (Months)',
-'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','nreadscore'='1997 Read','nmathscore'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.','nappliedscore02:chagem'='Math * Age','nreadscore02:chagem'='Read * Age')
+'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','stdread97'='1997 Read','stdmath97'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.','stdmath02:chagem'='2002 Math * Age','stdread02:chagem'='2002 Read * Age','stdmath02'='2002 Math','stdread02'='2002 Read','stdread97:chagem'='1997 Read * Age','stdmath97:chagem'='1997 Math * Age')
 drop.list <- list('income','RT','ageyoungest02','SBLNUM03')
-keep.list  <-  list('mathresids','readresids','nappliedscore02','nreadscore02','nreadscore02:chagem','nappliedscore02:chagem','home97','nmathscore','nreadscore','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
+keep.list  <-  list('mathresids','readresids','stdmath02','stdread02','stdread02:chagem','stdmath02:chagem','home97','stdmath97','stdread97','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income','stdread97:chagem','stdmath97:chagem')
 mathoutfile <- paste(outputvar,'math',sep='')
 readoutfile <- paste(outputvar,'read',sep='')
 o<-esttab2(filename=paste(mathoutfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list, tableName='math')
@@ -124,9 +119,9 @@ o<-esttab2(filename=paste(readoutfile,'.tex',sep=''),indicate=ind.list,  col.wid
 #ind.list <- list('Age of Youngest'='ageyoungest.*','Family Size'='famsize.*')
 #columns <- rep(outputvar,6)
 #vrn <- list('RT'='Risk Tolerance','income'='Income /100k', 'chagem'='Age (Months)',
-#'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','nreadscore'='1997 Read','nmathscore'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.')
+#'chagem2'='Age^2', 'cdip'='College Degree', 'hsdip'='HS Grad','fcdip'='Dad College','fhsdip'='Dad HS','stdread97'='1997 Read','stdmath97'='1997 Math','resids'='Unexpected Change','BTOT97'='Time in 1997','mathresids'='Math Resid.','readresids'='Read Resid.')
 #drop.list <- list('income','RT','ageyoungest02','SBLNUM03')
-#keep.list  <-  list('mathresids','readresids','nappliedscore02','nreadscore02','readresids:chagem','mathresids:chagem','home97','nmathscore','nreadscore','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
+#keep.list  <-  list('mathresids','readresids','stdmath02','stdread02','readresids:chagem','mathresids:chagem','home97','stdmath97','stdread97','BTOT97','chagem',  'chagem2',  'cdip',  'hsdip', 'income')
 #readoutfile <- paste(outputvar,'read',sep='')
 #o<-esttab2(filename=paste(readoutfile,'.txt',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
 #o<-esttab2(filename=paste(readoutfile,'.tex',sep=''),indicate=ind.list,  col.width=15, var.rename=vrn, col.headers=columns, keep=keep.list)
