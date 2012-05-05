@@ -58,7 +58,7 @@ wholeX <- gsub('^\\+ ','',wholeX)
 #firstformulas <- gsub('\\+  \\+','\\+',firstformulas)
 #firstformulas <- gsub('\\+ $','',firstformulas)
 #outputlist <- c('BTOT02')
-outputlist <- c('BTOT02','BTOT97','home97','home02')
+outputlist <- c('BTOT02','BTOT97','stdhome97','stdhome02')
 #outputvar <- 'Btravel02'
 #firstformulas <- c(
                    #'stdmath02 ~ stdmath97 + stdread97'
