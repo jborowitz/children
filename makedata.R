@@ -19,6 +19,8 @@ normscores <- function(x){
     x$stdread97 <- (x$nreadscore -mean(x$nreadscore,na.rm=TRUE))/sd(x$nreadscore,na.rm=TRUE)
     x$stdhome97 <- (x$home97 -mean(x$home97,na.rm=TRUE))/sd(x$home97,na.rm=TRUE)
     x$stdhome02 <- (x$home02 -mean(x$home02,na.rm=TRUE))/sd(x$home02,na.rm=TRUE)
+    x$stdmath07 <- (x$nappliedscore07 -mean(x$nappliedscore07,na.rm=TRUE))/sd(x$nappliedscore07,na.rm=TRUE)
+    x$stdread07 <- (x$nreadscore07 -mean(x$nreadscore07,na.rm=TRUE))/sd(x$nreadscore07,na.rm=TRUE)
     return(x)
 }
 datasubset <- ddply(.data=datasubset,.variables=.(chage),.fun=normscores)

@@ -38,14 +38,18 @@ interactions <- 'SBLNUM03 +  ageyoungest02'
 
 int <- c(rep('',2),rep(interactions,4))
 Xs <- c('1' 
-        ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool' 
+        ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + wifeinlf + income + inschool' 
         ,'1' 
-        ,' chagem2 + nonwhite + male + parentage + income + inschool' 
-        ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + income + inschool'
-        ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + inschool')
+        ,' chagem2 + nonwhite + male + parentage + wifeinlf + income + inschool' 
+        ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + wifeinlf + income + inschool'
+        ,' chagem2 + cdip + hsdip + fcdip + fhsdip + nonwhite + male + parentage + wifeinlf + inschool')
 
 xmath <- c('stdmath02*chagem')
 xread <- c('stdread02*chagem')
+xmath <- c('stdmath02')
+xread <- c('stdread02')
+xmath <- c('')
+xread <- c('')
 investment <- c('home97')
 #scores <- c('avgscore97 ')
 wholeX <- paste(int,Xs,sep=' + ')
@@ -58,7 +62,7 @@ wholeX <- gsub('^\\+ ','',wholeX)
 #firstformulas <- gsub('\\+  \\+','\\+',firstformulas)
 #firstformulas <- gsub('\\+ $','',firstformulas)
 #outputlist <- c('BTOT02')
-outputlist <- c('BTOT02','BTOT97','stdhome97','stdhome02')
+outputlist <- c('BTOT07','BTOT02','BTOT97','stdhome97','stdhome02')
 #outputvar <- 'Btravel02'
 #firstformulas <- c(
                    #'stdmath02 ~ stdmath97 + stdread97'
@@ -80,8 +84,10 @@ for(f in wholeX){
     #math.secondstage <- lm(math.secondstage.formula, weight=CH97PRWT, data=datasubset)
     #sd.effect <- sd(resid(math),na.rm=TRUE)*coef(math.secondstage)[['mathresids']]
     #eststo2(math.secondstage,list('1 S.D. Effect'=sd.effect), tableName='second')
-    eststo2(math.result, tableName='math')
-    eststo2(read.result, tableName='read')
+    math.sd <- sd(resid(math.result)[!is.na(resid(math.result))])
+    read.sd <- sd(resid(read.result)[!is.na(resid(read.result))])
+    eststo2(math.result, tableName='math',stats=list('Resid. SE'=math.sd))
+    eststo2(read.result, tableName='read',stats=list('Resid. SE'=read.sd))
     print('_________________________________________')
     print(math.formula)
     print(read.formula)
